@@ -311,6 +311,14 @@ function htmlVariantPlugin(activeMeta: VariantMeta, activeVariant: string, isDes
           "window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches",
           'false',
         );
+        // Fork: one-time layout reset. Earlier builds of this edition offered
+        // upstream "mission presets" that switch the topic panels off; the
+        // control is gone now, so a browser that picked one could not undo it.
+        // Runs before any module reads these keys. Bump the flag to reset again.
+        result = result.replace(
+          '<script data-wm-prepaint>(function(){try{',
+          "<script data-wm-prepaint>(function(){try{if(!localStorage.getItem('aichip-layout-reset-v1')){['worldmonitor-panels','worldmonitor-tabs-v1:tech','panel-order','panel-order-bottom-set','worldmonitor-layers','worldmonitor-mission-preset-v1','worldmonitor-disabled-feeds'].forEach(function(k){localStorage.removeItem(k)});localStorage.setItem('aichip-layout-reset-v1','1');}}catch(e){}try{",
+        );
       }
 
       // Desktop CSP: inject localhost wildcard for dynamic sidecar port.
