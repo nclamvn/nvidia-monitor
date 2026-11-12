@@ -230,6 +230,13 @@
     #000 !important;
 }
 
+/* The globe's marker layer gives every marker its own z-index (one per
+   object, into the hundreds). Without a stacking context of its own those
+   markers paint over anything placed above the globe, the pulse cards first. */
+:root[data-variant="tech"] .globe-mode .scene-container {
+  isolation: isolate;
+}
+
 /* Live pulse: headlines surfacing on the globe (fork-globe-pulse.ts). */
 .fk-pulse-layer {
   position: absolute;
