@@ -47,7 +47,7 @@ export const DEFAULT_MAP_LAYERS: MapLayers = {
 
   conflicts: false,
   bases: false,
-  cables: true,
+  cables: false,
   pipelines: false,
   hotspots: false,
   ais: false,

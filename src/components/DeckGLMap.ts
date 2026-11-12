@@ -1,4 +1,5 @@
 import { bindMapControlDisclosure } from './map-control-disclosure';
+import { MapPulse } from '@/components/fork-map-pulse';
 import { MapDistanceControl } from './map-distance-control';
 import { createTimeoutSignal } from '@/services/timeout-signal';
 /**
@@ -682,6 +683,7 @@ export class DeckGLMap {
     activeWindowMs: DECK_ACTIVE_FRAME_WINDOW_MS,
   });
   private maplibreMap: maplibregl.Map | null = null;
+  private forkPulse: MapPulse | null = null;
   private state: DeckMapState;
   private popup: MapPopup;
   private isResizing = false;
@@ -1346,6 +1348,7 @@ export class DeckGLMap {
       }
       this.maplibreMap.on('load', () => {
         this.attachMapLibreInteractionHandlers();
+        this.mountForkPulse();
         localizeMapLabels(this.maplibreMap);
         improveBasemapLabels(this.maplibreMap, isLightMapTheme(initialMapTheme));
         this.initDeck();
@@ -1359,6 +1362,7 @@ export class DeckGLMap {
       localizeMapLabels(this.maplibreMap);
       improveBasemapLabels(this.maplibreMap, isLightMapTheme(initialMapTheme));
       this.initDeck();
+      this.mountForkPulse();
       this.loadCountryBoundaries();
       this.fetchServerBases();
       this.render();
@@ -9188,7 +9192,22 @@ export class DeckGLMap {
     }
   }
 
+  /** Fork: headline cards pinned to places on the flat map (tech edition). */
+  private mountForkPulse(): void {
+    if (SITE_VARIANT !== 'tech' || this.forkPulse) return;
+    this.forkPulse = new MapPulse(this.container, (lat, lng) => {
+      const map = this.maplibreMap;
+      if (!map) return null;
+      const point = map.project([lng, lat]);
+      const inside = point.x >= 0 && point.y >= 0
+        && point.x <= this.container.clientWidth && point.y <= this.container.clientHeight;
+      return inside ? { x: point.x, y: point.y } : null;
+    });
+  }
+
   public destroy(): void {
+    this.forkPulse?.destroy();
+    this.forkPulse = null;
     this.controlDisclosureCleanups.forEach(cleanup => cleanup());
     this.controlDisclosureCleanups = [];
     this.destroyed = true;

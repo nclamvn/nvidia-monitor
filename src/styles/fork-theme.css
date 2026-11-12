@@ -237,7 +237,7 @@
   isolation: isolate;
 }
 
-/* Live pulse: headlines surfacing on the globe (fork-globe-pulse.ts). */
+/* Live pulse: headlines surfacing on the map, flat or globe (fork-map-pulse.ts). */
 .fk-pulse-layer {
   position: absolute;
   inset: 0;
@@ -245,21 +245,29 @@
   pointer-events: none;
   z-index: 3;
 }
-.fk-pulse {
+.fk-pulse,
+.fk-news-modal {
   --fk-c: #88CF0C;
+}
+.fk-pulse--policy, .fk-pulse--cloud { --fk-c: #6C9BFF; }
+.fk-pulse--hardware { --fk-c: #F0504F; }
+.fk-pulse--finance { --fk-c: #FFA028; }
+
+.fk-pulse {
   position: absolute;
   left: 0;
   top: 0;
   display: block;
   width: 0;
   height: 0;
-  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
   will-change: transform;
 }
-.fk-pulse--policy, .fk-pulse--cloud { --fk-c: #6C9BFF; }
-.fk-pulse--hardware { --fk-c: #F0504F; }
-.fk-pulse--finance { --fk-c: #FFA028; }
-
 .fk-pulse__dot {
   position: absolute;
   left: -4px;
@@ -268,8 +276,9 @@
   height: 8px;
   background: var(--fk-c);
   box-shadow: 0 0 0 1px #000, 0 0 12px var(--fk-c);
+  pointer-events: auto;
   opacity: 0;
-  transition: opacity 240ms cubic-bezier(.2, .8, .2, 1);
+  transition: opacity 180ms cubic-bezier(.2, .8, .2, 1);
 }
 .fk-pulse__dot::before,
 .fk-pulse__dot::after {
@@ -278,9 +287,9 @@
   inset: -1px;
   border: 1px solid var(--fk-c);
   border-radius: 50%;
-  animation: fk-ring 2.4s cubic-bezier(.2, .6, .3, 1) infinite;
+  animation: fk-ring 1.8s cubic-bezier(.2, .6, .3, 1) infinite;
 }
-.fk-pulse__dot::after { animation-delay: 1.2s; }
+.fk-pulse__dot::after { animation-delay: 0.9s; }
 @keyframes fk-ring {
   from { transform: scale(1); opacity: 0.9; }
   to { transform: scale(5.5); opacity: 0; }
@@ -288,42 +297,42 @@
 
 .fk-pulse__card {
   position: absolute;
-  left: 34px;
+  left: 30px;
   top: -22px;
-  width: 236px;
+  display: block;
+  width: 228px;
   padding: 7px 10px 8px 11px;
-  background: rgba(3, 6, 9, 0.9);
+  background: rgba(3, 6, 9, 0.92);
   border: 1px solid #28323B;
   box-shadow: inset 2px 0 0 var(--fk-c), 0 10px 30px rgba(0, 0, 0, 0.6);
   pointer-events: auto;
   opacity: 0;
-  transform: translateX(-8px);
-  clip-path: inset(0 100% 0 0);
+  transform: translate3d(-10px, 0, 0);
   transition:
-    opacity 300ms cubic-bezier(.2, .8, .2, 1),
-    transform 420ms cubic-bezier(.2, .8, .2, 1),
-    clip-path 420ms cubic-bezier(.2, .8, .2, 1);
+    opacity 220ms cubic-bezier(.2, .8, .2, 1),
+    transform 320ms cubic-bezier(.2, .8, .2, 1),
+    border-color 150ms cubic-bezier(.2, .8, .2, 1);
+  will-change: opacity, transform;
 }
 /* Leader line from the point to the card. */
 .fk-pulse__card::before {
   content: "";
   position: absolute;
-  left: -29px;
+  left: -25px;
   top: 21px;
-  width: 28px;
+  width: 24px;
   height: 1px;
   background: linear-gradient(90deg, var(--fk-c), #28323B);
 }
 .fk-pulse.is-left .fk-pulse__card {
   left: auto;
-  right: 34px;
-  transform: translateX(8px);
-  clip-path: inset(0 0 0 100%);
+  right: 30px;
+  transform: translate3d(10px, 0, 0);
   box-shadow: inset -2px 0 0 var(--fk-c), 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 .fk-pulse.is-left .fk-pulse__card::before {
   left: auto;
-  right: -29px;
+  right: -25px;
   background: linear-gradient(270deg, var(--fk-c), #28323B);
 }
 .fk-pulse.is-in .fk-pulse__dot { opacity: 1; }
@@ -331,9 +340,10 @@
 .fk-pulse.is-in.is-left .fk-pulse__card {
   opacity: 1;
   transform: none;
-  clip-path: inset(0 0 0 0);
 }
-.fk-pulse__card:hover { border-color: var(--fk-c); background: #05090D; }
+.fk-pulse:hover .fk-pulse__card,
+.fk-pulse:focus-visible .fk-pulse__card { border-color: var(--fk-c); background: #05090D; }
+.fk-pulse:focus-visible { outline: none; }
 
 .fk-pulse__meta {
   display: flex;
@@ -357,9 +367,133 @@
   font: 400 11.5px/1.35 var(--font-mono, ui-monospace, Menlo, monospace);
   color: #F3F5F6;
 }
+
+/* Dialog opened from a card. */
+.fk-news-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.62);
+  opacity: 0;
+  transition: opacity 180ms cubic-bezier(.2, .8, .2, 1);
+}
+.fk-news-modal.is-in { opacity: 1; }
+.fk-news-modal__box {
+  box-sizing: border-box;
+  width: min(560px, 100%);
+  max-height: min(680px, 100%);
+  overflow-y: auto;
+  padding: 0 22px 22px;
+  background: #05070A;
+  border: 1px solid #28323B;
+  box-shadow: inset 0 2px 0 var(--fk-c), 0 30px 80px rgba(0, 0, 0, 0.7);
+  transform: translate3d(0, 10px, 0);
+  transition: transform 220ms cubic-bezier(.2, .8, .2, 1);
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  color: #F3F5F6;
+}
+.fk-news-modal.is-in .fk-news-modal__box { transform: none; }
+.fk-news-modal__head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 -22px;
+  padding: 14px 22px 12px;
+  background: #05070A;
+  border-bottom: 1px solid #1A2128;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9BA5B0;
+}
+.fk-news-modal__head b { color: var(--fk-c); font-weight: 600; }
+.fk-news-modal__close {
+  margin-left: auto;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid #28323B;
+  background: none;
+  color: #C9D0D6;
+  font: 500 10px/1 var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.fk-news-modal__close:hover { border-color: #3A4650; color: #fff; }
+.fk-news-modal__title {
+  margin: 18px 0 12px;
+  font: 500 19px/1.35 var(--font-mono, ui-monospace, Menlo, monospace);
+  letter-spacing: 0;
+  color: #fff;
+  text-wrap: balance;
+}
+.fk-news-modal__snippet {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #C9D0D6;
+}
+.fk-news-modal__facts {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 7px 12px;
+  margin: 0 0 18px;
+  padding: 12px 0;
+  border-top: 1px solid #1A2128;
+  border-bottom: 1px solid #1A2128;
+  font-size: 11.5px;
+}
+.fk-news-modal__facts dt { color: #6F7A85; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px; padding-top: 1px; }
+.fk-news-modal__facts dd { margin: 0; color: #C9D0D6; font-variant-numeric: tabular-nums; }
+.fk-news-modal__open {
+  display: block;
+  padding: 11px 14px;
+  background: var(--fk-c);
+  color: #000;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+}
+.fk-news-modal__open:hover { filter: brightness(1.1); }
+.fk-news-modal__label {
+  margin: 22px 0 8px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6F7A85;
+}
+.fk-news-modal__related { margin: 0; padding: 0; list-style: none; counter-reset: fk-rel; }
+.fk-news-modal__related li {
+  counter-increment: fk-rel;
+  position: relative;
+  padding: 8px 0 8px 26px;
+  border-top: 1px solid #10151A;
+}
+.fk-news-modal__related li::before {
+  content: counter(fk-rel) ")";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  font-size: 10px;
+  color: #6F7A85;
+}
+.fk-news-modal__related a { display: block; font-size: 12px; line-height: 1.4; color: #F3F5F6; text-decoration: none; }
+.fk-news-modal__related a:hover { text-decoration: underline; text-decoration-color: #4C86FF; text-underline-offset: 3px; }
+.fk-news-modal__related span { display: block; margin-top: 2px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #FFA028; }
+.fk-news-modal :focus-visible { outline: 2px solid #F3F5F6; outline-offset: 2px; }
+
 @media (prefers-reduced-motion: reduce) {
   .fk-pulse__dot::before, .fk-pulse__dot::after { animation: none; opacity: 0.5; transform: scale(2.4); }
-  .fk-pulse__card, .fk-pulse__dot { transition: none; }
+  .fk-pulse__card, .fk-pulse__dot, .fk-news-modal, .fk-news-modal__box { transition: none; }
 }
 
 /* ── Footer ticker (fork-ticker.ts) ─────────────────────────────────────── */
@@ -703,6 +837,8 @@
   padding: 0 10px;
   gap: 8px;
   transform: none !important;
+  translate: none;
+  align-self: center;
   overflow: visible;
 }
 :root[data-variant="tech"] .fk-hd .intel-findings-badge .findings-icon { font-size: 0; }

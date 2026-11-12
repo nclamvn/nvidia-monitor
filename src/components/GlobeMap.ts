@@ -28,7 +28,7 @@ import { getLocale, initI18n, t } from '@/services/i18n';
 import type { ReservoirLevel } from '@/services/climate';
 import { reservoirHeadline, reservoirTone, statusLabel as reservoirStatusLabel } from './reservoir-levels-view';
 import { SITE_VARIANT } from '@/config/variant';
-import { GlobePulse } from '@/components/fork-globe-pulse';
+import { MapPulse, angularDistanceDeg } from '@/components/fork-map-pulse';
 import { staticAssetUrl } from '@/config/static-asset-url';
 import { getGlobeRenderScale, resolveGlobePixelRatio, resolvePerformanceProfile, subscribeGlobeRenderScaleChange, getGlobeTexture, GLOBE_TEXTURE_URLS, subscribeGlobeTextureChange, getGlobeVisualPreset, subscribeGlobeVisualPresetChange, type GlobeRenderScale, type GlobePerformanceProfile, type GlobeVisualPreset } from '@/services/globe-render-settings';
 import {
@@ -548,7 +548,7 @@ export class GlobeMap {
 
   private initialized = false;
   private destroyed = false;
-  private forkPulse: GlobePulse | null = null;
+  private forkPulse: MapPulse | null = null;
   private webglLost = false;
   private flushTimer: ReturnType<typeof setTimeout> | null = null;
   private flushMaxTimer: ReturnType<typeof setTimeout> | null = null;
@@ -1060,7 +1060,12 @@ export class GlobeMap {
     this.initialized = true;
 
     if (SITE_VARIANT === 'tech') {
-      this.forkPulse = new GlobePulse(this.container, globe as unknown as ConstructorParameters<typeof GlobePulse>[1]);
+      this.forkPulse = new MapPulse(this.container, (lat, lng) => {
+        // Places past the limb are hidden rather than drawn through the globe.
+        const pov = globe.pointOfView();
+        if (angularDistanceDeg(pov.lat, pov.lng, lat, lng) > 68) return null;
+        return globe.getScreenCoords(lat, lng, 0.01) ?? null;
+      });
       void this.applyForkVisuals();
     }
 

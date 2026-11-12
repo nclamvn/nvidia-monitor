@@ -186,7 +186,7 @@ const VARIANT_LAYER_ORDER: Record<MapVariant, Array<keyof MapLayers>> = {
   // (outages, cyber threats, tech events, natural events, fires, resilience)
   // have no backend in this edition and would be empty checkboxes.
   tech: [
-    'datacenters', 'cables', 'cloudRegions', 'techHQs',
+    'datacenters', 'cloudRegions', 'techHQs',
     'startupHubs', 'accelerators', 'dayNight',
   ],
   finance: [
