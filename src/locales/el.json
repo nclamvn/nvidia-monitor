@@ -4924,7 +4924,13 @@
     },
     "tech": {
       "map": "Χάρτης Παγκόσμιας Τεχνολογίας",
-      "liveNews": "Κύριες Ειδήσεις Τεχνολογίας"
+      "liveNews": "Κύριες Ειδήσεις Τεχνολογίας",
+      "tech": "Nvidia CEO Scandal",
+      "policy": "Chip & AI Policy",
+      "hardware": "Chips & Supply Chain",
+      "cloud": "Data Centers & Power",
+      "ai": "AI Industry News",
+      "finance": "AI Stocks News"
     },
     "commodity": {
       "map": "Χάρτης Εμπορευμάτων",

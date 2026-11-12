@@ -4946,7 +4946,13 @@
     },
     "tech": {
       "map": "Carte mondiale de la tech",
-      "liveNews": "Titres tech"
+      "liveNews": "Titres tech",
+      "tech": "Nvidia CEO Scandal",
+      "policy": "Chip & AI Policy",
+      "hardware": "Chips & Supply Chain",
+      "cloud": "Data Centers & Power",
+      "ai": "AI Industry News",
+      "finance": "AI Stocks News"
     },
     "commodity": {
       "map": "Carte des matières premières",

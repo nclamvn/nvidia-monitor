@@ -4924,7 +4924,13 @@
     },
     "tech": {
       "map": "वैश्विक प्रौद्योगिकी मानचित्र",
-      "liveNews": "प्रौद्योगिकी समाचार"
+      "liveNews": "प्रौद्योगिकी समाचार",
+      "tech": "Nvidia CEO Scandal",
+      "policy": "Chip & AI Policy",
+      "hardware": "Chips & Supply Chain",
+      "cloud": "Data Centers & Power",
+      "ai": "AI Industry News",
+      "finance": "AI Stocks News"
     },
     "commodity": {
       "map": "वस्तु मानचित्र",

@@ -5012,7 +5012,13 @@
     },
     "tech": {
       "map": "خريطة التكنولوجيا العالمية",
-      "liveNews": "عناوين التكنولوجيا"
+      "liveNews": "عناوين التكنولوجيا",
+      "tech": "Nvidia CEO Scandal",
+      "policy": "Chip & AI Policy",
+      "hardware": "Chips & Supply Chain",
+      "cloud": "Data Centers & Power",
+      "ai": "AI Industry News",
+      "finance": "AI Stocks News"
     },
     "commodity": {
       "map": "خريطة السلع الأساسية",

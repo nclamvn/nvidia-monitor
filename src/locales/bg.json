@@ -4924,7 +4924,13 @@
     },
     "tech": {
       "map": "Глобална карта на технологиите",
-      "liveNews": "Технологични новини"
+      "liveNews": "Технологични новини",
+      "tech": "Nvidia CEO Scandal",
+      "policy": "Chip & AI Policy",
+      "hardware": "Chips & Supply Chain",
+      "cloud": "Data Centers & Power",
+      "ai": "AI Industry News",
+      "finance": "AI Stocks News"
     },
     "commodity": {
       "map": "Карта на суровините",

@@ -4902,7 +4902,13 @@
     },
     "tech": {
       "map": "글로벌 기술 지도",
-      "liveNews": "기술 헤드라인"
+      "liveNews": "기술 헤드라인",
+      "tech": "Nvidia CEO Scandal",
+      "policy": "Chip & AI Policy",
+      "hardware": "Chips & Supply Chain",
+      "cloud": "Data Centers & Power",
+      "ai": "AI Industry News",
+      "finance": "AI Stocks News"
     },
     "commodity": {
       "map": "상품 지도",

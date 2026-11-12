@@ -4986,6 +4986,9 @@
           "path": "api/download.js"
         },
         {
+          "path": "api/fork-digest.js"
+        },
+        {
           "path": "api/health.js"
         },
         {
@@ -7018,6 +7021,9 @@
       "status": "terms-review",
       "references": [
         {
+          "path": "api/_fork-feeds.js"
+        },
+        {
           "path": "scripts/source-catalog-identity.mjs"
         },
         {
@@ -8599,12 +8605,15 @@
     {
       "host": "rss.politico.com",
       "provider": "rss.politico.com",
-      "kind": "feed",
+      "kind": "feed+structured",
       "observed": true,
       "license": "Provider terms for this feed publisher; verify before redistribution",
       "attribution": "Credit rss.politico.com and link to the original feed publisher.",
       "status": "terms-review",
       "references": [
+        {
+          "path": "api/_fork-feeds.js"
+        },
         {
           "path": "shared/news-catalog.json"
         }
@@ -10745,12 +10754,15 @@
     {
       "host": "venturebeat.com",
       "provider": "venturebeat.com",
-      "kind": "feed",
+      "kind": "feed+structured",
       "observed": true,
       "license": "Provider terms for this feed publisher; verify before redistribution",
       "attribution": "Credit venturebeat.com and link to the original feed publisher.",
       "status": "terms-review",
       "references": [
+        {
+          "path": "api/_fork-feeds.js"
+        },
         {
           "path": "shared/news-catalog.json"
         }
@@ -14427,12 +14439,15 @@
     {
       "host": "www.semianalysis.com",
       "provider": "www.semianalysis.com",
-      "kind": "feed",
+      "kind": "feed+structured",
       "observed": true,
       "license": "Provider terms for this feed publisher; verify before redistribution",
       "attribution": "Credit www.semianalysis.com and link to the original feed publisher.",
       "status": "terms-review",
       "references": [
+        {
+          "path": "api/_fork-feeds.js"
+        },
         {
           "path": "shared/news-catalog.json"
         }
@@ -14754,12 +14769,15 @@
     {
       "host": "www.technologyreview.com",
       "provider": "www.technologyreview.com",
-      "kind": "feed",
+      "kind": "feed+structured",
       "observed": true,
       "license": "Provider terms for this feed publisher; verify before redistribution",
       "attribution": "Credit www.technologyreview.com and link to the original feed publisher.",
       "status": "terms-review",
       "references": [
+        {
+          "path": "api/_fork-feeds.js"
+        },
         {
           "path": "shared/news-catalog.json"
         }
@@ -14906,12 +14924,15 @@
     {
       "host": "www.theverge.com",
       "provider": "www.theverge.com",
-      "kind": "feed",
+      "kind": "feed+structured",
       "observed": true,
       "license": "Provider terms for this feed publisher; verify before redistribution",
       "attribution": "Credit www.theverge.com and link to the original feed publisher.",
       "status": "terms-review",
       "references": [
+        {
+          "path": "api/_fork-feeds.js"
+        },
         {
           "path": "shared/news-catalog.json"
         }
@@ -14943,12 +14964,15 @@
     {
       "host": "www.tomshardware.com",
       "provider": "www.tomshardware.com",
-      "kind": "feed",
+      "kind": "feed+structured",
       "observed": true,
       "license": "Provider terms for this feed publisher; verify before redistribution",
       "attribution": "Credit www.tomshardware.com and link to the original feed publisher.",
       "status": "terms-review",
       "references": [
+        {
+          "path": "api/_fork-feeds.js"
+        },
         {
           "path": "shared/news-catalog.json"
         }

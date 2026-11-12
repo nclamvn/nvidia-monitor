@@ -4957,7 +4957,13 @@
     },
     "tech": {
       "map": "Globalna tehnološka mapa",
-      "liveNews": "Tehnološke vijesti"
+      "liveNews": "Tehnološke vijesti",
+      "tech": "Nvidia CEO Scandal",
+      "policy": "Chip & AI Policy",
+      "hardware": "Chips & Supply Chain",
+      "cloud": "Data Centers & Power",
+      "ai": "AI Industry News",
+      "finance": "AI Stocks News"
     },
     "commodity": {
       "map": "Mapa sirovina",
