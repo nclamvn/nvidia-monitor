@@ -23,12 +23,22 @@ export function arrangeForkHeader(root: HTMLElement): void {
     logo.append(mark, word);
   }
 
-  // Workspace tabs join the bar, which removes the second row.
-  const tabs = root.querySelector<HTMLElement>('.dashboard-tabs-bar');
-  if (tabs) {
-    const divider = document.createElement('span');
-    divider.className = 'fk-hd-rule';
-    left.append(divider, tabs);
+  // Workspace tabs join the bar, which removes the second row. The tab bar is
+  // built a little after the header, so it is adopted the moment it appears:
+  // mutation callbacks run before the next paint, so it is never seen in its
+  // old row.
+  const divider = document.createElement('span');
+  divider.className = 'fk-hd-rule';
+  left.appendChild(divider);
+  const adoptTabs = (): boolean => {
+    const tabs = root.querySelector<HTMLElement>('.dashboard-tabs-bar');
+    if (!tabs) return false;
+    if (tabs.parentElement !== left) left.appendChild(tabs);
+    return true;
+  };
+  if (!adoptTabs()) {
+    const watcher = new MutationObserver(() => { if (adoptTabs()) watcher.disconnect(); });
+    watcher.observe(root, { childList: true, subtree: true });
   }
 
   // Centre: live state and the UTC clock that used to sit over the map.
@@ -44,9 +54,8 @@ export function arrangeForkHeader(root: HTMLElement): void {
   const region = left.querySelector<HTMLElement>('.region-selector');
   if (region) right.prepend(region);
 
-  // The row the tabs came from is empty now; fold it so the map moves up.
-  const row = root.querySelector<HTMLElement>('.dashboard-navigation-row');
-  if (row && !row.querySelector('.dashboard-tabs-bar')) row.hidden = true;
+  // The row the tabs lived in stays empty; fork-theme.css hides it.
+  root.classList.add('fk-hd-root');
 
   header.classList.add('fk-hd');
 }

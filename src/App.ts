@@ -1,4 +1,3 @@
-import { arrangeForkHeader } from '@/components/fork-header';
 import type { Monitor, PanelConfig, MapLayers } from '@/types';
 import { WEB_APP_ORIGIN } from '@/config/web-origin';
 import {
@@ -2997,8 +2996,6 @@ export class App {
     this.eventHandlers.setupSearchControls();
     // Fork: the Pro upsell banner is not mounted (no billing backend here).
     if (SITE_VARIANT === 'tech') {
-      // Synchronous on purpose: a lazy import let the unarranged header paint for a frame or two.
-      arrangeForkHeader(this.state.container);
       const tickerHost = document.getElementById('forkTicker');
       if (tickerHost) void import('@/components/fork-ticker').then(({ mountForkTicker }) => mountForkTicker(tickerHost));
     }

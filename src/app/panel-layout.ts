@@ -1,3 +1,4 @@
+import { arrangeForkHeader } from '@/components/fork-header';
 import { clearTelegramIntelCache } from '@/services/telegram-intel';
 import { subscribeRuntimeConfig } from '@/services/runtime-config';
 import type { AppContext, AppModule } from '@/app/app-context';
@@ -1504,6 +1505,9 @@ export class PanelLayoutManager implements AppModule {
         </span>
       </footer>
     `, "legacy direct innerHTML migration"));
+    // Fork: arrange the header in the same task that creates it, so the
+    // unarranged bar never reaches the screen.
+    if (SITE_VARIANT === 'tech') arrangeForkHeader(this.ctx.container);
     // Move the same links so navigation, analytics and focus targets stay shared.
     this.variantPlacementCleanup?.();
     const switcher = this.ctx.container.querySelector('.variant-switcher');
