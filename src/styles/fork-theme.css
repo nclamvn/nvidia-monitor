@@ -943,3 +943,35 @@
 @media (max-width: 1120px) {
   :root[data-variant="tech"] .fk-hd-centre .status-indicator { display: none; }
 }
+
+/* ── Full-screen panels ─────────────────────────────────────────────────
+   The map and the main video expand with a fixed, full-viewport box. The
+   header and the ticker sit in a higher stacking context and covered its top
+   edge, exit control included, so they step aside while a panel is expanded.
+   The exit control is labelled so the way back is obvious. Esc also exits. */
+:root[data-variant="tech"] body.live-news-fullscreen-active .header,
+:root[data-variant="tech"] body.live-news-fullscreen-active .site-footer,
+:root[data-variant="tech"] body.live-news-fullscreen-active .dashboard-navigation-row {
+  display: none !important;
+}
+:root[data-variant="tech"] .live-news-fullscreen .live-mute-btn[title="Exit fullscreen"],
+:root[data-variant="tech"] .live-news-fullscreen #mapFullscreenBtn {
+  width: auto;
+  min-width: 0;
+  height: 28px;
+  padding: 0 10px;
+  gap: 8px;
+  border: 1px solid #76B900;
+  background: #05070A;
+  color: #F3F5F6;
+  display: inline-flex;
+  align-items: center;
+}
+:root[data-variant="tech"] .live-news-fullscreen .live-mute-btn[title="Exit fullscreen"]::after,
+:root[data-variant="tech"] .live-news-fullscreen #mapFullscreenBtn::after {
+  content: "Exit full screen · Esc";
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
