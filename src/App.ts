@@ -2995,6 +2995,7 @@ export class App {
     this.eventHandlers.setupSearchControls();
     // Fork: the Pro upsell banner is not mounted (no billing backend here).
     if (SITE_VARIANT === 'tech') {
+      void import('@/components/fork-header').then(({ arrangeForkHeader }) => arrangeForkHeader(this.state.container));
       const tickerHost = document.getElementById('forkTicker');
       if (tickerHost) void import('@/components/fork-ticker').then(({ mountForkTicker }) => mountForkTicker(tickerHost));
     }

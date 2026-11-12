@@ -508,3 +508,260 @@
 .fk-video__cover[hidden] { display: none; }
 .fk-video__cover b { color: #F3F5F6; font-size: 12px; letter-spacing: 0.16em; }
 .fk-video__cover:hover span { color: #88CF0C; }
+
+/* ── Header (fork-header.ts) ────────────────────────────────────────────
+   One 48px bar on a three-zone grid, so the clock sits on the true centre
+   whatever the side zones hold. Every control shares one 30px box. */
+:root[data-variant="tech"] .header.fk-hd {
+  --fk-ctl: 30px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 20px;
+  height: 48px;
+  padding: 0 14px;
+  background: #000;
+  border-bottom: 1px solid #1A2128;
+  box-shadow: none;
+}
+:root[data-variant="tech"] .fk-hd .header-left {
+  gap: 14px;
+  min-width: 0;
+  height: 100%;
+}
+:root[data-variant="tech"] .fk-hd .header-right {
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Brand: a green mark and a wordmark, not a filled slab. */
+:root[data-variant="tech"] .fk-hd .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: none;
+  color: #F3F5F6;
+  font: 600 12px/1 var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.fk-hd-mark {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  background: #76B900;
+  flex: none;
+}
+.fk-hd-mark::before,
+.fk-hd-mark::after {
+  content: "";
+  position: absolute;
+  background: #000;
+}
+.fk-hd-mark::before { left: 4px; top: 4px; width: 10px; height: 2px; box-shadow: 0 4px 0 #000, 0 8px 0 #000; }
+.fk-hd-mark::after { left: 8px; top: 4px; width: 2px; height: 10px; opacity: 0.55; }
+.fk-hd-rule {
+  width: 1px;
+  height: 20px;
+  background: #28323B;
+  flex: none;
+}
+
+/* Workspace tabs as flat segments with a green underline on the active one. */
+:root[data-variant="tech"] .fk-hd .dashboard-tabs-bar {
+  align-items: stretch;
+  gap: 2px;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  overflow: hidden;
+}
+:root[data-variant="tech"] .fk-hd .dashboard-tablist { align-items: stretch; gap: 2px; }
+:root[data-variant="tech"] .fk-hd .dashboard-tab {
+  border: 0;
+  background: none;
+  box-shadow: inset 0 -2px 0 transparent;
+  transition: box-shadow 150ms cubic-bezier(.2, .8, .2, 1);
+}
+:root[data-variant="tech"] .fk-hd .dashboard-tab.active { background: none; box-shadow: inset 0 -2px 0 #76B900; }
+:root[data-variant="tech"] .fk-hd .dashboard-tab-label {
+  height: 100%;
+  padding: 0 12px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9BA5B0;
+}
+:root[data-variant="tech"] .fk-hd .dashboard-tab.active .dashboard-tab-label { color: #F3F5F6; }
+:root[data-variant="tech"] .fk-hd .dashboard-tab-add,
+:root[data-variant="tech"] .fk-hd .dashboard-tab-options,
+:root[data-variant="tech"] .fk-hd .dashboard-tab-focus {
+  align-self: center;
+  height: 24px;
+  min-width: 24px;
+  margin: 0 0 0 4px;
+  padding: 0 8px;
+  border: 1px solid #1A2128;
+  background: none;
+  color: #6F7A85;
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+:root[data-variant="tech"] .fk-hd .dashboard-tab-add:hover,
+:root[data-variant="tech"] .fk-hd .dashboard-tab-options:hover,
+:root[data-variant="tech"] .fk-hd .dashboard-tab-focus:hover,
+:root[data-variant="tech"] .fk-hd .dashboard-tab-focus.active { color: #F3F5F6; border-color: #3A4650; }
+
+/* Centre: live dot and clock, tabular so the digits do not jitter. */
+.fk-hd-centre {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--fk-ctl);
+  padding: 0 14px;
+  border: 1px solid #1A2128;
+  white-space: nowrap;
+}
+:root[data-variant="tech"] .fk-hd-centre .status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding-right: 12px;
+  border-right: 1px solid #28323B;
+  font: 600 10px/1 var(--font-mono);
+  letter-spacing: 0.18em;
+  color: #88CF0C;
+}
+:root[data-variant="tech"] .fk-hd-centre .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #88CF0C; }
+:root[data-variant="tech"] .fk-hd-centre .header-clock {
+  position: static;
+  transform: none;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  color: #C9D0D6;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Right: one control size, one border, one hover. */
+:root[data-variant="tech"] .fk-hd .region-select,
+:root[data-variant="tech"] .fk-hd .intel-findings-badge,
+:root[data-variant="tech"] .fk-hd .export-btn,
+:root[data-variant="tech"] .fk-hd .search-btn,
+:root[data-variant="tech"] .fk-hd .unified-settings-btn {
+  box-sizing: border-box;
+  height: var(--fk-ctl);
+  margin: 0;
+  border: 1px solid #1A2128;
+  background-color: #05070A;
+  color: #C9D0D6;
+  font: 500 10.5px/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 150ms cubic-bezier(.2, .8, .2, 1), color 150ms cubic-bezier(.2, .8, .2, 1);
+}
+:root[data-variant="tech"] .fk-hd .region-select:hover,
+:root[data-variant="tech"] .fk-hd .intel-findings-badge:hover,
+:root[data-variant="tech"] .fk-hd .export-btn:hover,
+:root[data-variant="tech"] .fk-hd .search-btn:hover,
+:root[data-variant="tech"] .fk-hd .unified-settings-btn:hover {
+  border-color: #3A4650;
+  color: #F3F5F6;
+  transform: none;
+}
+:root[data-variant="tech"] .fk-hd .region-select { padding: 0 28px 0 12px; }
+:root[data-variant="tech"] .fk-hd .export-panel-container { display: flex; }
+:root[data-variant="tech"] .fk-hd .unified-settings-btn,
+:root[data-variant="tech"] .fk-hd .export-btn { width: var(--fk-ctl); padding: 0; }
+:root[data-variant="tech"] .fk-hd #unifiedSettingsMount { min-width: 0; min-height: 0; display: flex; }
+
+/* Signals: a word and a count instead of an emoji. */
+:root[data-variant="tech"] .fk-hd .intel-findings-badge { gap: 8px; padding: 0 10px; }
+:root[data-variant="tech"] .fk-hd .intel-findings-badge .findings-icon { font-size: 0; }
+:root[data-variant="tech"] .fk-hd .intel-findings-badge .findings-icon::after { content: "Signals"; font-size: 10.5px; color: #9BA5B0; }
+:root[data-variant="tech"] .fk-hd .intel-findings-badge .findings-count {
+  min-width: 18px;
+  padding: 2px 5px;
+  border-radius: 0;
+  background: #11161B;
+  color: #F3F5F6;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Export: a drawn arrow in place of the glyph. */
+:root[data-variant="tech"] .fk-hd .export-btn {
+  font-size: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23C9D0D6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 20h16'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Search reads as a field: wide, label left, shortcut right. */
+:root[data-variant="tech"] .fk-hd .search-btn {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 190px;
+  padding: 0 8px 0 12px;
+  color: #9BA5B0;
+}
+:root[data-variant="tech"] .fk-hd .search-btn kbd {
+  padding: 3px 6px;
+  border: 1px solid #28323B;
+  background: #000;
+  color: #9BA5B0;
+  font: 500 9.5px/1 var(--font-mono);
+}
+
+/* Map header: with the clock gone it is a title and a tool group. */
+:root[data-variant="tech"] .map-section .map-dimension-toggle { border-radius: 0; }
+
+@media (max-width: 1280px) {
+  :root[data-variant="tech"] .fk-hd .search-btn { width: 120px; }
+  :root[data-variant="tech"] .fk-hd .dashboard-tab-focus { display: none; }
+}
+@media (max-width: 1120px) {
+  :root[data-variant="tech"] .fk-hd-centre .status-indicator { display: none; }
+  :root[data-variant="tech"] .fk-hd .intel-findings-badge .findings-icon { display: none; }
+}
+
+:root[data-variant="tech"] .fk-hd .mission-preset-mount { display: none; }
+:root[data-variant="tech"] .dashboard-navigation-row[hidden] { display: none !important; }
+:root[data-variant="tech"] .fk-hd .header-right > * { position: static; transform: none; flex: none; }
+:root[data-variant="tech"] .fk-hd .region-selector { order: 1; display: flex; }
+:root[data-variant="tech"] .fk-hd .intel-findings-badge { order: 2; overflow: visible; }
+:root[data-variant="tech"] .fk-hd .search-btn { order: 3; }
+:root[data-variant="tech"] .fk-hd .export-panel-container { order: 4; }
+:root[data-variant="tech"] .fk-hd #unifiedSettingsMount { order: 5; }
+:root[data-variant="tech"] .fk-hd .region-select { min-width: 124px; }
+@media (max-width: 1280px) {
+  :root[data-variant="tech"] .fk-hd .dashboard-tab-options { display: none; }
+}
+:root[data-variant="tech"] .fk-hd .header-right > .intel-findings-badge {
+  position: relative;
+  top: auto;
+  left: auto;
+  margin: 0 !important;
+  transform: none !important;
+  translate: none;
+  align-self: center;
+}
+:root[data-variant="tech"] .fk-hd .header-right > .intel-findings-badge {
+  width: auto !important;
+  min-width: max-content;
+  max-width: none;
+  justify-content: flex-start;
+}
+@media (max-width: 1280px) {
+  :root[data-variant="tech"] .header.fk-hd { column-gap: 12px; }
+  :root[data-variant="tech"] .fk-hd .region-select { min-width: 100px; }
+  :root[data-variant="tech"] .fk-hd .search-btn { width: 104px; }
+  :root[data-variant="tech"] .fk-hd .intel-findings-badge .findings-icon { display: none; }
+  :root[data-variant="tech"] .fk-hd-centre { padding: 0 10px; gap: 10px; }
+}
