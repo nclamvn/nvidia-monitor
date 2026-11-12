@@ -311,6 +311,17 @@ function htmlVariantPlugin(activeMeta: VariantMeta, activeVariant: string, isDes
           "window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches",
           'false',
         );
+        // Fork: no boot skeleton. The static shell is drawn in upstream's look and
+        // flashed for a fraction of a second before the dashboard replaced it; the
+        // tech edition holds a plain black field instead. The markup stays (tests
+        // and crawlers read it), only its critical CSS changes.
+        result = result
+          .replace('.skeleton-shell{display:flex;', '.skeleton-shell{display:none;')
+          .replace(
+            'html,body{margin:0;height:100%;width:100%;overflow:hidden;background:#0a0a0a}',
+            "html,body{margin:0;height:100%;width:100%;overflow:hidden;background:#000}html.wm-pro-banner-reserved #app::before{content:none!important;display:none!important}",
+          );
+
         // Fork: one-time layout reset. Earlier builds of this edition offered
         // upstream "mission presets" that switch the topic panels off; the
         // control is gone now, so a browser that picked one could not undo it.
