@@ -612,7 +612,7 @@
   .fk-ticker__run[aria-hidden="true"] { display: none; }
 }
 
-/* ── Fixed live channel panels (fork-video-panel.ts) ────────────────────── */
+/* ── Live channel panels (fork-video-panel.ts) ──────────────────────────── */
 .fk-video {
   position: relative;
   padding: 0 !important;
@@ -628,6 +628,9 @@
   height: 100%;
   border: 0;
 }
+/* The embedded player takes no pointer events: its own overlay is too large
+   for this frame and stays up for seconds after the pointer leaves. */
+.fk-video__stage { pointer-events: none; }
 .fk-video__cover {
   position: absolute;
   inset: 0;
@@ -636,19 +639,62 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 0 16px;
   border: 0;
   cursor: pointer;
   color: #9BA5B0;
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px),
     #05070A;
-  font: 500 10px var(--font-mono, ui-monospace, monospace);
+  font: 500 10px/1.5 var(--font-mono, ui-monospace, monospace);
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: center;
 }
-.fk-video__cover[hidden] { display: none; }
+.fk-video__cover[hidden], .fk-video__bar[hidden] { display: none; }
 .fk-video__cover b { color: #F3F5F6; font-size: 12px; letter-spacing: 0.16em; }
 .fk-video__cover:hover span { color: #88CF0C; }
+/* Panel controls: shown the moment the pointer is over the frame, gone the
+   moment it leaves. */
+.fk-video__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 8px 8px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.82), transparent);
+  opacity: 0;
+  transition: opacity 120ms cubic-bezier(.2, .8, .2, 1);
+}
+.fk-video:hover .fk-video__bar,
+.fk-video:focus-within .fk-video__bar { opacity: 1; }
+.fk-video__tag {
+  margin-right: auto;
+  font: 600 10px/1 var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #F3F5F6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fk-video__ctl {
+  flex: none;
+  height: 24px;
+  padding: 0 9px;
+  border: 1px solid #3A4650;
+  background: rgba(5, 7, 10, 0.85);
+  color: #F3F5F6;
+  font: 500 9.5px/1 var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.fk-video__ctl:hover { border-color: #88CF0C; color: #88CF0C; }
+@media (prefers-reduced-motion: reduce) { .fk-video__bar { transition: none; } }
 
 /* ── Header (fork-header.ts) ────────────────────────────────────────────
    One 48px bar on a three-zone grid, so the clock sits on the true centre

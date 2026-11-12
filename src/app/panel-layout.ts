@@ -3436,9 +3436,16 @@ export class PanelLayoutManager implements AppModule {
 
     // Fork: two fixed live channels under the main video wall.
     this.lazyImportedPanel('fork-video-a', () => import('@/components/fork-video-panel'), 'ForkVideoPanel',
-      (ForkVideoPanel) => new ForkVideoPanel('fork-video-a', 'yahoo', 'Yahoo Finance Live'));
+      (ForkVideoPanel) => new ForkVideoPanel('fork-video-a', 'Markets Live', [
+        { slot: 'yahoo', name: 'Yahoo Finance' },
+        { slot: 'bloomberg', name: 'Bloomberg' },
+      ]));
     this.lazyImportedPanel('fork-video-b', () => import('@/components/fork-video-panel'), 'ForkVideoPanel',
-      (ForkVideoPanel) => new ForkVideoPanel('fork-video-b', 'cna-asia', 'CNA Asia Live'));
+      (ForkVideoPanel) => new ForkVideoPanel('fork-video-b', 'Asia Live', [
+        { slot: 'nhk-world', name: 'NHK World Japan' },
+        { slot: 'cna-asia', name: 'CNA' },
+        { slot: 'dw', name: 'DW News' },
+      ]));
 
     this.lazyImportedPanel('monitors', () => import('@/components/MonitorPanel'), 'MonitorPanel', (MonitorPanel) => {
       const monitorPanel = new MonitorPanel(this.ctx.monitors);

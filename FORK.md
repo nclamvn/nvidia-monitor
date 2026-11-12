@@ -21,7 +21,7 @@ The `tech` edition is repurposed into a single-topic dashboard: the Nvidia CEO s
 | `vite.config.ts`, `src/utils/theme-manager.ts` | Fixes a syntax error in the pre-paint script of every non-full build, and makes the tech edition default to dark. |
 | Globe | The tech edition opens on the 3D globe with the NASA texture, anisotropic filtering, a 2x pixel-ratio cap and no beta badge. `src/components/fork-map-pulse.ts` surfaces real headlines on the flat map and the globe as short-lived cards pinned to a place inferred from keywords in the headline; selecting one opens a dialog with the headline, related headlines and the article link. The undersea-cable layer is off. |
 | `src/components/fork-ticker.ts`, `api/fork-quotes.js` | The footer is a running strip of the newest headlines and share prices (Yahoo Finance chart endpoint, keyless). It also carries the source link the AGPL asks for. |
-| `src/components/fork-video-panel.ts` | Two fixed live channels (Yahoo Finance, CNA Asia) in the row under the main video panel. |
+| `src/components/fork-video-panel.ts` | Two live channel panels in the row under the main video panel (Markets: Yahoo Finance then Bloomberg; Asia: NHK World, CNA, DW). Each moves to its next channel when one is offline, and draws its own controls in place of the embedded player's. |
 | Map layers | Layer controls are folded by default and list only layers backed by bundled data. |
 | Generated files | Regenerated with `npm run generate`. 51 hosts that left the catalog were retired in `shared/source-attribution-manifest.json`. |
 

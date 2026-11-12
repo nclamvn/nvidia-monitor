@@ -26,8 +26,8 @@ export {
 export const DEFAULT_PANELS: Record<string, PanelConfig> = {
   map: { name: 'AI Infrastructure Map', enabled: true, priority: 1 },
   'live-news': { name: 'AI & Chip Headlines', enabled: true, priority: 1 },
-  'fork-video-a': { name: 'Yahoo Finance Live', enabled: true, priority: 1 },
-  'fork-video-b': { name: 'CNA Asia Live', enabled: true, priority: 1 },
+  'fork-video-a': { name: 'Markets Live', enabled: true, priority: 1 },
+  'fork-video-b': { name: 'Asia Live', enabled: true, priority: 1 },
   tech: { name: 'Nvidia CEO Scandal', enabled: true, priority: 1 },
   policy: { name: 'Chip & AI Policy', enabled: true, priority: 1 },
   hardware: { name: 'Chips & Supply Chain', enabled: true, priority: 1 },
