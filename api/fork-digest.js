@@ -178,9 +178,11 @@ export default async function handler(req) {
     status: 200,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
+      // Public, read-only data; the companion graph site reads it cross-origin.
+      'Access-Control-Allow-Origin': '*',
       // An empty answer is cached briefly so a blocked upstream is retried soon.
       'Cache-Control': itemsServed
-        ? 'public, max-age=60, s-maxage=600, stale-while-revalidate=1800, stale-if-error=21600'
+        ? 'public, max-age=60, s-maxage=120, stale-while-revalidate=1800, stale-if-error=21600'
         : 'public, max-age=0, s-maxage=30',
     },
   });

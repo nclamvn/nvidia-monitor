@@ -14,6 +14,8 @@ import { withResolvedLiveVideos } from '@/services/live-video/resolved';
 import { openLiveVideo, type LiveVideoSession, type LiveVideoState } from '@/services/live-video/session';
 import type { LiveVideoSource } from '@/services/live-video/model';
 
+const START_DELAY_MS = 4000;
+
 export interface ForkVideoChannel { slot: LiveNewsSlotId; name: string }
 
 export class ForkVideoPanel extends Panel {
@@ -66,12 +68,15 @@ export class ForkVideoPanel extends Panel {
     this.setCover('Play live', false);
     this.syncControls();
 
-    if (typeof IntersectionObserver === 'function') {
+    // The players wait a few seconds so they do not compete with the map and
+    // the news for the first paint, then start when the panel is on screen.
+    setTimeout(() => {
+      if (this.started || !this.element.isConnected || typeof IntersectionObserver !== 'function') return;
       this.observer = new IntersectionObserver((entries) => {
         if (entries.some((entry) => entry.isIntersecting)) this.start();
       }, { threshold: 0.4 });
       this.observer.observe(this.element);
-    }
+    }, START_DELAY_MS);
   }
 
   private get channel(): ForkVideoChannel {

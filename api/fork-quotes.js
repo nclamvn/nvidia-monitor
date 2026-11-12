@@ -47,6 +47,8 @@ export default async function handler(req) {
     status: 200,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
+      // Public, read-only data; the companion graph site reads it cross-origin.
+      'Access-Control-Allow-Origin': '*',
       'Cache-Control': quotes.length
         ? 'public, max-age=30, s-maxage=60, stale-while-revalidate=300'
         : 'public, max-age=0, s-maxage=20',

@@ -1,5 +1,13 @@
 import type { AppContext, AppModule } from '@/app/app-context';
 import { publishHeadlines } from '@/services/fork-headline-bus';
+
+/** Fork: the digest request started by the pre-paint script, usable once. */
+function takeEarlyForkDigest(): Promise<Response | null> | null {
+  const holder = window as unknown as { __forkDigest?: Promise<Response | null> | null };
+  const early = holder.__forkDigest ?? null;
+  holder.__forkDigest = null;
+  return early;
+}
 import { enqueueSentryCall } from '@/bootstrap/sentry-defer';
 import { isAnalyticsHost, track } from '@/services/analytics';
 import { isPageUnloading } from '@/bootstrap/page-unload-signal';
@@ -708,7 +716,7 @@ export class DataLoaderManager implements AppModule {
     const promise = (async (): Promise<ListFeedDigestResponse | null> => {
       try {
         const resp = await fetch(
-          toApiUrl(`/api/fork-digest?variant=${encodeURIComponent(edition)}&lang=${encodeURIComponent(language)}`),
+          toApiUrl('/api/fork-digest'),
           { signal: AbortSignal.timeout(this.digestRequestTimeoutMs) },
         );
         if (!resp.ok) return null;
@@ -836,10 +844,13 @@ export class DataLoaderManager implements AppModule {
     try {
       markLcpDebug('wm:data:feed-digest-start');
       deadline = AbortSignal.timeout(this.digestRequestTimeoutMs);
-      const resp = await fetch(
-        toApiUrl(`/api/fork-digest?variant=${SITE_VARIANT}&lang=${requestLanguage}`),
-        { signal: deadline },
-      );
+      // Fork: one parameterless URL, so every visitor shares one CDN entry. The
+      // first load reuses the request the pre-paint script already started
+      // (window.__forkDigest, see vite.config.ts) instead of waiting for the
+      // bundle to boot before asking.
+      const early = takeEarlyForkDigest();
+      const resp = (early ? await early : null)
+        ?? await fetch(toApiUrl('/api/fork-digest'), { signal: deadline });
       if (!resp.ok) throw new DigestHttpError(resp);
       const data = await resp.json() as ListFeedDigestResponse;
       const catCount = countDigestCategories(data);

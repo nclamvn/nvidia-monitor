@@ -4002,7 +4002,8 @@ export class App {
 
   private setupRefreshIntervals(): void {
     // Always refresh news for all variants
-    this.refreshScheduler.scheduleRefresh('news', () => this.dataLoader.loadNews(), REFRESH_INTERVALS.feeds);
+    // Fork: the tech edition polls its CDN-cached digest every 3 minutes.
+    this.refreshScheduler.scheduleRefresh('news', () => this.dataLoader.loadNews(), SITE_VARIANT === 'tech' ? 3 * 60 * 1000 : REFRESH_INTERVALS.feeds);
     // Registration (and its immediate first hydration) is deferred to
     // post-paint idle: freshness badges are below-the-fold decoration, so the
     // fetch must not compete with the LCP-window requests (#4907, #4890).
