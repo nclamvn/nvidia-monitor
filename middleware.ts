@@ -698,6 +698,9 @@ async function proxyDocsLocaleHtml(request: Request, url: URL, host: string): Pr
 }
 
 export const config = {
+  // New Vercel projects default middleware to the Node.js runtime, which does not
+  // bundle these extensionless imports. Pin the edge runtime upstream relies on.
+  runtime: 'edge',
   matcher: [
     '/mcp',
     '/api/:path*',
