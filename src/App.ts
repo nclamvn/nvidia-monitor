@@ -213,7 +213,6 @@ import { replaceRawI18nKeyPlaceholders } from '@/app/i18n-raw-key-healer';
 import { startAccountAuthHandoff } from '@/app/account-auth-handoff';
 import { TierPreferenceHandoff } from '@/app/tier-preference-handoff';
 import { initialRegionFromCache, resolveUserRegion, resolvePreciseUserCoordinates, type PreciseCoordinates } from '@/utils/user-location';
-import { showProBanner } from '@/components/ProBanner';
 import { getAuthState, initAuthState, subscribeAuthState } from '@/services/auth-state';
 import { installSignUpResume } from '@/services/sign-up-resume';
 import { createSignUpResumeOverlay } from '@/components/SignUpResumeOverlay';
@@ -2994,7 +2993,7 @@ export class App {
     await this.panelLayout.init();
     markLcpDebug('wm:layout:init-complete');
     this.eventHandlers.setupSearchControls();
-    showProBanner(this.state.container);
+    // Fork: the Pro upsell banner is not mounted (no billing backend here).
     this.updateConnectivityUi();
     window.addEventListener('online', this.handleConnectivityChange);
     window.addEventListener('offline', this.handleConnectivityChange);

@@ -981,6 +981,7 @@ export class EventHandlerManager implements AppModule {
     this.renderMissionPresetControl();
 
     const shouldPrompt =
+      SITE_VARIANT !== 'tech' &&
       !this.ctx.isMobile &&
       !window.location.search &&
       !loadStoredMissionPreset() &&
@@ -1063,6 +1064,8 @@ export class EventHandlerManager implements AppModule {
   private renderMissionPresetControl(): void {
     const mount = document.getElementById('missionPresetMount');
     if (!mount) return;
+    // Fork: the single-topic edition has no mission presets to choose from.
+    if (SITE_VARIANT === 'tech') return;
 
     const active = loadStoredMissionPreset();
     const label = active?.shortLabel ?? 'Mission';

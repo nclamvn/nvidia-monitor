@@ -296,8 +296,20 @@ function htmlVariantPlugin(activeMeta: VariantMeta, activeVariant: string, isDes
       // before CSS loads. Web builds always use 'full' — runtime hostname detection handles variants.
       if (activeVariant !== 'full') {
         result = result.replace(
-          /if\(v\)document\.documentElement\.dataset\.variant=v;/,
+          // Fork fix: also consume the `else removeAttribute(...)` arm. Leaving it
+          // behind produced `…=v;else …`, a syntax error that killed the whole
+          // pre-paint script on every non-full build.
+          /if\(v\)document\.documentElement\.dataset\.variant=v;(?:else document\.documentElement\.removeAttribute\('data-variant'\);)?/,
           `v='${activeVariant}';document.documentElement.dataset.variant=v;`
+        );
+      }
+
+      // Fork: the tech edition defaults to dark, so the pre-paint script must not
+      // follow a light system setting (matches resolveAutoTheme in theme-manager).
+      if (activeVariant === 'tech') {
+        result = result.replace(
+          "window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches",
+          'false',
         );
       }
 

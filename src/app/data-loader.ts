@@ -149,7 +149,6 @@ import { t, getCurrentLanguage } from '@/services/i18n';
 import { ensureHydrated, getHydratedData } from '@/services/bootstrap';
 import { ensurePipelineRegistriesHydrated } from '@/shared/pipeline-registry-store';
 import { ensureStorageFacilityRegistryHydrated } from '@/shared/storage-facility-registry-store';
-import { publicRpcFetch } from '@/services/public-rpc-fetch';
 import type { ListFeedDigestResponse } from '@/generated/client/worldmonitor/news/v1/service_client';
 import type { GetSectorSummaryResponse, ListMarketQuotesResponse, ListCommodityQuotesResponse } from '@/generated/client/worldmonitor/market/v1/service_client';
 import type {
@@ -707,8 +706,8 @@ export class DataLoaderManager implements AppModule {
     if (cached && now - cached.at < this.crossEditionDigestTtlMs) return cached.promise;
     const promise = (async (): Promise<ListFeedDigestResponse | null> => {
       try {
-        const resp = await publicRpcFetch(
-          toApiUrl(`/api/news/v1/list-feed-digest?variant=${encodeURIComponent(edition)}&lang=${encodeURIComponent(language)}`),
+        const resp = await fetch(
+          toApiUrl(`/api/fork-digest?variant=${encodeURIComponent(edition)}&lang=${encodeURIComponent(language)}`),
           { signal: AbortSignal.timeout(this.digestRequestTimeoutMs) },
         );
         if (!resp.ok) return null;
@@ -836,8 +835,8 @@ export class DataLoaderManager implements AppModule {
     try {
       markLcpDebug('wm:data:feed-digest-start');
       deadline = AbortSignal.timeout(this.digestRequestTimeoutMs);
-      const resp = await publicRpcFetch(
-        toApiUrl(`/api/news/v1/list-feed-digest?variant=${SITE_VARIANT}&lang=${requestLanguage}`),
+      const resp = await fetch(
+        toApiUrl(`/api/fork-digest?variant=${SITE_VARIANT}&lang=${requestLanguage}`),
         { signal: deadline },
       );
       if (!resp.ok) throw new DigestHttpError(resp);

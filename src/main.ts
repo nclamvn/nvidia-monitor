@@ -1,4 +1,5 @@
 import './styles/base-layer.css';
+import './styles/fork-theme.css';
 import './bootstrap/zod-csp';
 import './bootstrap/abort-signal-fallbacks';
 import './bootstrap/dom-fallbacks';

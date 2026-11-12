@@ -25,6 +25,9 @@ export function getThemePreference(): ThemePreference {
 }
 
 function resolveAutoTheme(): Theme {
+  // Fork: the AI Chip Monitor edition is designed dark; a light system setting
+  // does not switch it. An explicit Light choice in settings still does.
+  if (typeof document !== 'undefined' && document.documentElement.dataset.variant === 'tech') return 'dark';
   if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: light)').matches) {
     return 'light';
   }

@@ -1,0 +1,224 @@
+/* Fork-only theme for the AI Chip Monitor (tech edition).
+   Terminal layout language (black field, amber function bars, dense numbered
+   rows, square corners) on the palette of the Nvidia knowledge graph:
+   Nvidia green, US blue, China red. Dark theme only; the light theme is left
+   as upstream ships it. */
+:root[data-variant="tech"]:not([data-theme="light"]) {
+  --fk-nv: #76B900;
+  --fk-nv-hi: #88CF0C;
+  --fk-us: #4C86FF;
+  --fk-cn: #F0504F;
+  --fk-amber: #FFA028;
+  --fk-ink: #F3F5F6;
+  --fk-ink2: #9BA5B0;
+  --fk-ink3: #6F7A85;
+  --fk-line: #1A2128;
+  --fk-line2: #28323B;
+
+  --bg: #000;
+  --bg-secondary: #05070A;
+  --surface: #05070A;
+  --surface-hover: #11161B;
+  --surface-active: #0E1A2E;
+  --border: var(--fk-line);
+  --border-strong: var(--fk-line2);
+  --border-subtle: #10151A;
+  --text: var(--fk-ink);
+  --text-secondary: #C9D0D6;
+  --text-dim: var(--fk-ink2);
+  --text-muted: #8B96A1;
+  --text-faint: #7C8792;
+  --text-ghost: #5C6772;
+  --accent: var(--fk-amber);
+  --panel-bg: #05070A;
+  --panel-border: var(--fk-line);
+  --input-bg: #0B0F13;
+  --scrollbar-thumb: var(--fk-line2);
+  --scrollbar-thumb-hover: #3A4650;
+  --map-bg: #020406;
+  --map-grid: #0B1218;
+  --map-country: #0A1016;
+  --map-stroke: #22303B;
+  --green: var(--fk-nv-hi);
+  --red: var(--fk-cn);
+  --yellow: var(--fk-amber);
+  --status-live: var(--fk-nv-hi);
+  --status-cached: var(--fk-amber);
+  --status-unavailable: var(--fk-cn);
+  --semantic-positive: var(--fk-nv-hi);
+  --semantic-info: var(--fk-us);
+  --semantic-low: var(--fk-us);
+  --semantic-critical: var(--fk-cn);
+  --font-mono: 'IBM Plex Mono', 'SF Mono', 'Menlo', 'Cascadia Code', 'DejaVu Sans Mono', 'Liberation Mono', monospace;
+}
+
+/* Things the fork has no backend for, or that point at the upstream product. */
+:root[data-variant="tech"] .pro-banner-slot,
+:root[data-variant="tech"] .variant-switcher,
+:root[data-variant="tech"] #authWidgetMount,
+:root[data-variant="tech"] .credit-link,
+:root[data-variant="tech"] .version,
+:root[data-variant="tech"] .site-footer-download-link {
+  display: none !important;
+}
+:root[data-variant="tech"].wm-pro-banner-reserved .pro-banner-slot {
+  min-height: 0 !important;
+  height: 0 !important;
+}
+
+/* Square everything. A terminal has no rounded cards. */
+:root[data-variant="tech"] .panel,
+:root[data-variant="tech"] .panel *,
+:root[data-variant="tech"] .header *,
+:root[data-variant="tech"] .map-section,
+:root[data-variant="tech"] .map-section button,
+:root[data-variant="tech"] .map-section input {
+  border-radius: 0 !important;
+}
+
+:root[data-variant="tech"]:not([data-theme="light"]) body {
+  background: #000;
+}
+
+/* Header: one black command line, green brand block, amber ticks. */
+:root[data-variant="tech"]:not([data-theme="light"]) .header {
+  background: #000;
+  border-bottom: 1px solid var(--fk-line2);
+  box-shadow: inset 0 -2px 0 -1px var(--fk-nv);
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .logo {
+  background: var(--fk-nv);
+  color: #071006;
+  padding: 3px 10px;
+  letter-spacing: 0.16em;
+  font-size: 12px;
+  font-weight: 700;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .status-indicator {
+  color: var(--fk-nv-hi);
+  letter-spacing: 0.12em;
+}
+
+/* Panels: flat black, hairline frame, amber title on a function bar. */
+:root[data-variant="tech"]:not([data-theme="light"]) .panel {
+  --fk-acc: var(--fk-amber);
+  background: #05070A;
+  border: 1px solid var(--fk-line);
+  box-shadow: none;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel:hover {
+  border-color: var(--fk-line2);
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-header {
+  background: #0A0E12;
+  border-bottom: 1px solid var(--fk-line2);
+  box-shadow: inset 3px 0 0 var(--fk-acc);
+  padding: 5px 10px 5px 12px;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-title {
+  color: var(--fk-acc);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel[data-panel="tech"],
+:root[data-variant="tech"]:not([data-theme="light"]) .panel[data-panel="ai"] { --fk-acc: var(--fk-nv-hi); }
+:root[data-variant="tech"]:not([data-theme="light"]) .panel[data-panel="policy"],
+:root[data-variant="tech"]:not([data-theme="light"]) .panel[data-panel="cloud"] { --fk-acc: var(--fk-us); }
+:root[data-variant="tech"]:not([data-theme="light"]) .panel[data-panel="hardware"] { --fk-acc: var(--fk-cn); }
+
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-count {
+  background: transparent;
+  color: var(--fk-ink2);
+  border: 1px solid var(--fk-line2);
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-data-badge.live {
+  color: var(--fk-nv-hi);
+  border-color: color-mix(in srgb, var(--fk-nv) 55%, transparent);
+  background: color-mix(in srgb, var(--fk-nv) 12%, transparent);
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-data-badge.unavailable {
+  color: var(--fk-cn);
+  border-color: color-mix(in srgb, var(--fk-cn) 50%, transparent);
+  background: color-mix(in srgb, var(--fk-cn) 10%, transparent);
+}
+
+/* News rows: numbered like a terminal headline list, amber source, white
+   headline, dim time, blue selection bar on hover. */
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-content {
+  padding: 0 8px 6px;
+  counter-reset: fk-row;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-content .item {
+  counter-increment: fk-row;
+  position: relative;
+  padding: 6px 4px 6px 30px;
+  border-bottom: 1px solid #10151A;
+  transition: background-color 120ms cubic-bezier(.2, .8, .2, 1);
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-content .item::before {
+  content: counter(fk-row) ")";
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 22px;
+  text-align: right;
+  font: 500 10px var(--font-mono);
+  color: var(--fk-ink3);
+  font-variant-numeric: tabular-nums;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-content .item:hover {
+  background: #0E1A2E;
+  box-shadow: inset 2px 0 0 var(--fk-us);
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .panel-content .item:hover::before {
+  color: var(--fk-ink);
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .item-source {
+  color: var(--fk-amber);
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .item-title {
+  color: var(--fk-ink);
+  line-height: 1.35;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) a.item-title:hover {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: var(--fk-us);
+  text-underline-offset: 3px;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .item-time {
+  color: var(--fk-ink3);
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+:root[data-variant="tech"]:not([data-theme="light"]) .item.alert {
+  border-left: 0;
+  margin-left: 0;
+  padding-left: 30px;
+  box-shadow: inset 2px 0 0 var(--fk-cn);
+}
+
+/* Footer status line. */
+:root[data-variant="tech"]:not([data-theme="light"]) .site-footer {
+  background: #000;
+  border-top: 1px solid var(--fk-line2);
+  color: var(--fk-ink3);
+}
+
+:root[data-variant="tech"] :focus-visible {
+  outline: 2px solid var(--fk-ink, #F3F5F6);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-variant="tech"] .panel-content .item { transition: none; }
+}
+
+/* Scoring badges need the upstream credibility and corroboration backend.
+   Without it every row would read "CRED 0, unreviewed, single publisher". */
+:root[data-variant="tech"] .panel-content .credibility-score-badge,
+:root[data-variant="tech"] .panel-content .propaganda-badge,
+:root[data-variant="tech"] .panel-content .corroboration-flag {
+  display: none !important;
+}

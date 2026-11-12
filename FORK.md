@@ -13,6 +13,12 @@ The `tech` edition is repurposed into a single-topic dashboard: the Nvidia CEO s
 | `src/app/panel-layout.ts` | News panels honour a variant rename. |
 | `src/config/variant.ts` | An unrecognised host serves the edition the build was made with, so a `*.vercel.app` deployment shows the tech edition. |
 | `vercel.json` | The build command is `npm run build:tech`. |
+| `api/fork-digest.js`, `api/_fork-feeds.js`, `scripts/fork-feeds.mjs` | A keyless news digest. It fetches the tech edition's RSS feeds on the edge and answers in the upstream `ListFeedDigestResponse` shape, so news panels work without the session secret, Redis or seed workers. Run `node scripts/fork-feeds.mjs` after changing tech feeds in the catalog. |
+| `src/app/data-loader.ts` | The dashboard reads `/api/fork-digest` instead of `/api/news/v1/list-feed-digest`. |
+| `src/styles/fork-theme.css` | Dark terminal theme for the tech edition: black field, amber function bars, numbered headline rows, Nvidia green, US blue, China red. Hides the edition switcher, sign-in, Pro banner and scoring badges that have no backend here. |
+| `src/App.ts`, `src/app/event-handlers.ts` | The Pro banner and the mission preset prompt are not mounted in the tech edition. |
+| Panels and layers | AI Insights and Tech Stocks are off by default (they need the upstream LLM and market backends). Map layers that need live APIs (outages, natural events, tech events) are off by default. |
+| `vite.config.ts`, `src/utils/theme-manager.ts` | Fixes a syntax error in the pre-paint script of every non-full build, and makes the tech edition default to dark. |
 | Generated files | Regenerated with `npm run generate`. 51 hosts that left the catalog were retired in `shared/source-attribution-manifest.json`. |
 
 ## Running it
@@ -22,7 +28,7 @@ npm ci
 VITE_VARIANT=tech npm run dev
 ```
 
-News, markets and AI panels need the backend described in `SELF_HOSTING.md` (Vercel functions, Upstash Redis, API keys). Without those keys the dashboard renders but the data panels stay empty.
+News panels work on a plain Vercel deployment through `api/fork-digest.js`. Markets and AI panels still need the backend described in `SELF_HOSTING.md` (Upstash Redis, API keys) and are off by default.
 
 ## Notes on the content
 
