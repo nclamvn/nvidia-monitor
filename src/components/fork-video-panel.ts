@@ -19,7 +19,6 @@ export class ForkVideoPanel extends Panel {
   constructor(id: string, private readonly slot: LiveNewsSlotId, private readonly label: string) {
     super({ id, title: label, closable: true, collapsible: true });
     this.content.classList.add('fk-video');
-    this.content.textContent = '';
     this.stage = document.createElement('div');
     this.stage.className = 'fk-video__stage';
     this.cover = document.createElement('button');
@@ -27,7 +26,7 @@ export class ForkVideoPanel extends Panel {
     this.cover.className = 'fk-video__cover';
     this.setCover('Play live', false);
     this.cover.addEventListener('click', () => this.start(true));
-    this.content.append(this.stage, this.cover);
+    this.setContentNodes(this.stage, this.cover);
 
     if (typeof IntersectionObserver === 'function') {
       this.observer = new IntersectionObserver((entries) => {

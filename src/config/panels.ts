@@ -300,6 +300,21 @@ const TECH_PANELS: Record<string, PanelConfig> = {
   markets: { name: 'Tech Stocks', enabled: false, priority: 2 },
   monitors: { name: 'My Monitors', enabled: true, priority: 2 },
   'ai-regulation': { name: 'AI Regulation Dashboard', enabled: false, priority: 2 },
+  // Fork: upstream tech panels kept as registered but off. The coverage catalog,
+  // docs and panel registries reference these keys; most have no data in this edition.
+  startups: { name: 'Startups & VC', enabled: false, priority: 1 },
+  vcblogs: { name: 'VC Insights & Essays', enabled: false, priority: 1 },
+  regionalStartups: { name: 'Global Startup News', enabled: false, priority: 1 },
+  unicorns: { name: 'Unicorn Tracker', enabled: false, priority: 1 },
+  accelerators: { name: 'Accelerators & Demo Days', enabled: false, priority: 1 },
+  security: { name: 'Cybersecurity', enabled: false, priority: 1 },
+  dev: { name: 'Developer Community', enabled: false, priority: 2 },
+  github: { name: 'GitHub Trending', enabled: false, priority: 1 },
+  funding: { name: 'Funding & VC', enabled: false, priority: 1 },
+  producthunt: { name: 'Product Hunt', enabled: false, priority: 1 },
+  events: { name: 'Tech Events', enabled: false, priority: 1 },
+  'internet-disruptions': { name: 'Internet Disruptions', enabled: false, priority: 2 },
+  'service-status': { name: 'Service Status', enabled: false, priority: 2 },
 };
 
 const TECH_MAP_LAYERS: MapLayers = {
@@ -1533,7 +1548,7 @@ export const PANEL_CATEGORY_MAP: Record<string, { labelKey: string; panelKeys: s
   // Tech variant
   techAi: {
     labelKey: 'header.panelCatTechAi',
-    panelKeys: ['ai', 'tech', 'hardware', 'cloud', 'dev', 'github', 'producthunt', 'events', 'service-status', 'tech-readiness', 'internet-disruptions', 'tech-hubs'],
+    panelKeys: ['ai', 'tech', 'fork-video-a', 'fork-video-b', 'hardware', 'cloud', 'dev', 'github', 'producthunt', 'events', 'service-status', 'tech-readiness', 'internet-disruptions', 'tech-hubs'],
     variants: ['tech'],
   },
   startupsVc: {
