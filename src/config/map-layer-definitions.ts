@@ -182,10 +182,12 @@ const VARIANT_LAYER_ORDER: Record<MapVariant, Array<keyof MapLayers>> = {
     'satellites', 'ciiChoropleth', 'resilienceScore', 'sanctions', 'no2Activity', 'reservoirLevels', 'dayNight', 'webcams',
     'diseaseOutbreaks',
   ],
+  // Fork: only layers that draw from bundled data. The API-backed ones
+  // (outages, cyber threats, tech events, natural events, fires, resilience)
+  // have no backend in this edition and would be empty checkboxes.
   tech: [
-    'startupHubs', 'techHQs', 'accelerators', 'cloudRegions',
-    'datacenters', 'cables', 'outages', 'cyberThreats',
-    'techEvents', 'resilienceScore', 'natural', 'fires', 'dayNight',
+    'datacenters', 'cables', 'cloudRegions', 'techHQs',
+    'startupHubs', 'accelerators', 'dayNight',
   ],
   finance: [
     'stockExchanges', 'financialCenters', 'centralBanks', 'commodityHubs',

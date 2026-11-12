@@ -1,4 +1,5 @@
 import { safeStorageGet, safeStorageSet } from '@/utils/safe-storage';
+import { SITE_VARIANT } from '@/config/variant';
 
 /** Shared by the SVG, WebGL and globe pickers. Explicit choices win over resize defaults. */
 export function bindMapControlDisclosure(
@@ -27,7 +28,8 @@ export function bindMapControlDisclosure(
   const render = (): void => {
     // Stacked laptop layouts can be wide but too short for the open controls.
     const compact = container.clientWidth < 700 || container.clientHeight < 400;
-    expanded = choice ?? !compact;
+    // Fork: the tech edition keeps map controls folded until asked for, so they do not cover the globe.
+    expanded = choice ?? (SITE_VARIANT === 'tech' ? false : !compact);
     panel.classList.toggle('map-control-compact', compact);
     panel.classList.toggle('map-control-collapsed', !expanded);
     button.setAttribute('aria-expanded', String(expanded));

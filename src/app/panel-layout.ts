@@ -1496,6 +1496,7 @@ export class PanelLayoutManager implements AppModule {
         </button>
       </nav>
       <footer class="site-footer" aria-label="World Monitor status">
+        ${SITE_VARIANT === 'tech' ? '<div id="forkTicker" class="fk-ticker"></div><a class="fk-source" href="https://github.com/nclamvn/nvidia-monitor" target="_blank" rel="noopener">Source · AGPL-3.0 · based on World Monitor</a>' : ''}
         <span class="site-footer-meta">
           <span class="site-footer-version">v${__APP_VERSION__}</span>
           <span class="site-footer-copy">&copy; ${new Date().getFullYear()} World Monitor</span>
@@ -3432,6 +3433,12 @@ export class PanelLayoutManager implements AppModule {
     this.lazyDefaultPanel('stock-backtest', () => import('@/components/StockBacktestPanel'), 'StockBacktestPanel');
     // Web premium gating for stock-analysis and stock-backtest is handled
     // reactively by updatePanelGating() via auth state subscription.
+
+    // Fork: two fixed live channels under the main video wall.
+    this.lazyImportedPanel('fork-video-a', () => import('@/components/fork-video-panel'), 'ForkVideoPanel',
+      (ForkVideoPanel) => new ForkVideoPanel('fork-video-a', 'yahoo', 'Yahoo Finance Live'));
+    this.lazyImportedPanel('fork-video-b', () => import('@/components/fork-video-panel'), 'ForkVideoPanel',
+      (ForkVideoPanel) => new ForkVideoPanel('fork-video-b', 'cna-asia', 'CNA Asia Live'));
 
     this.lazyImportedPanel('monitors', () => import('@/components/MonitorPanel'), 'MonitorPanel', (MonitorPanel) => {
       const monitorPanel = new MonitorPanel(this.ctx.monitors);

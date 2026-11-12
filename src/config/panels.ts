@@ -288,6 +288,8 @@ const TECH_PANELS: Record<string, PanelConfig> = {
   // the policy around them. Feeds live in shared/news-catalog.json (tech edition).
   map: { name: 'AI Infrastructure Map', enabled: true, priority: 1 },
   'live-news': { name: 'AI & Chip Headlines', enabled: true, priority: 1 },
+  'fork-video-a': { name: 'Yahoo Finance Live', enabled: true, priority: 1 },
+  'fork-video-b': { name: 'CNA Asia Live', enabled: true, priority: 1 },
   insights: { name: 'AI Insights', enabled: false, priority: 1 },
   tech: { name: 'Nvidia CEO Scandal', enabled: true, priority: 1 },
   policy: { name: 'Chip & AI Policy', enabled: true, priority: 1 },

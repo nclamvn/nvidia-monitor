@@ -2994,6 +2994,10 @@ export class App {
     markLcpDebug('wm:layout:init-complete');
     this.eventHandlers.setupSearchControls();
     // Fork: the Pro upsell banner is not mounted (no billing backend here).
+    if (SITE_VARIANT === 'tech') {
+      const tickerHost = document.getElementById('forkTicker');
+      if (tickerHost) void import('@/components/fork-ticker').then(({ mountForkTicker }) => mountForkTicker(tickerHost));
+    }
     this.updateConnectivityUi();
     window.addEventListener('online', this.handleConnectivityChange);
     window.addEventListener('offline', this.handleConnectivityChange);

@@ -317,7 +317,7 @@ function htmlVariantPlugin(activeMeta: VariantMeta, activeVariant: string, isDes
         // Runs before any module reads these keys. Bump the flag to reset again.
         result = result.replace(
           '<script data-wm-prepaint>(function(){try{',
-          "<script data-wm-prepaint>(function(){try{if(!localStorage.getItem('aichip-layout-reset-v1')){['worldmonitor-panels','worldmonitor-tabs-v1:tech','panel-order','panel-order-bottom-set','worldmonitor-layers','worldmonitor-mission-preset-v1','worldmonitor-disabled-feeds'].forEach(function(k){localStorage.removeItem(k)});localStorage.setItem('aichip-layout-reset-v1','1');}}catch(e){}try{",
+          "<script data-wm-prepaint>(function(){try{if(!localStorage.getItem('aichip-layout-reset-v2')){['worldmonitor-panels','worldmonitor-tabs-v1:tech','panel-order','panel-order-bottom-set','worldmonitor-layers','worldmonitor-mission-preset-v1','worldmonitor-disabled-feeds','worldmonitor-map-layers-expanded'].forEach(function(k){localStorage.removeItem(k)});localStorage.setItem('aichip-layout-reset-v2','1');}}catch(e){}try{",
         );
       }
 
