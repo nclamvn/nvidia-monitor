@@ -1121,6 +1121,20 @@
       "reason": "Migrating to analyst/v1.ListAgentSkills in commit 9 of #3207. Blocked on sebuf#150.",
       "owner": "@SebastienMelki",
       "removal_issue": "#3207"
+    },
+    {
+      "path": "api/fork-digest.js",
+      "category": "upstream-proxy",
+      "reason": "Fork-only keyless news digest. Fetches the tech edition's RSS feeds and answers in the ListFeedDigestResponse shape so the fork runs without the session secret, Redis or seed workers that the sebuf news RPC needs.",
+      "owner": "@nclamvn",
+      "removal_issue": null
+    },
+    {
+      "path": "api/fork-quotes.js",
+      "category": "upstream-proxy",
+      "reason": "Fork-only keyless share prices for the footer ticker, proxied from Yahoo Finance's public chart endpoint.",
+      "owner": "@nclamvn",
+      "removal_issue": null
     }
   ]
 }
