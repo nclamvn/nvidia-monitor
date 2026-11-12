@@ -1,3 +1,5 @@
+import { SITE_VARIANT } from '@/config/variant';
+
 export type GlobeRenderScale = 'auto' | '1' | '1.5' | '2' | '3';
 export type GlobeTexture = 'topographic' | 'blue-marble';
 
@@ -53,7 +55,8 @@ export function subscribeGlobeRenderScaleChange(cb: (scale: GlobeRenderScale) =>
 
 export function resolveGlobePixelRatio(scale: GlobeRenderScale): number {
   const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
-  if (scale === 'auto') return Math.min(1.5, Math.max(1, dpr));
+  // Fork: the tech edition renders the globe at up to 2x for a sharper image.
+  if (scale === 'auto') return Math.min(SITE_VARIANT === 'tech' ? 2 : 1.5, Math.max(1, dpr));
   const num = Number(scale);
   if (!Number.isFinite(num) || num <= 0) return 1;
   return Math.min(1.5, Math.max(1, num));
@@ -89,7 +92,8 @@ export function getGlobeTexture(): GlobeTexture {
     const raw = localStorage.getItem(TEXTURE_STORAGE_KEY);
     if (raw === 'topographic' || raw === 'blue-marble') return raw;
   } catch { /* ignore */ }
-  return 'topographic';
+  // Fork: the brighter NASA texture separates the globe from the black field.
+  return SITE_VARIANT === 'tech' ? 'blue-marble' : 'topographic';
 }
 
 export function setGlobeTexture(texture: GlobeTexture): void {

@@ -1,4 +1,8 @@
-import { DEFAULT_MAP_MODE, STORAGE_KEYS, type MapModePreference } from '@/config/variants/base';
+import { DEFAULT_MAP_MODE as BASE_DEFAULT_MAP_MODE, STORAGE_KEYS, type MapModePreference } from '@/config/variants/base';
+import { SITE_VARIANT } from '@/config/variant';
+
+// Fork: the AI Chip Monitor edition opens on the 3D globe.
+const DEFAULT_MAP_MODE: MapModePreference = SITE_VARIANT === 'tech' ? 'globe' : BASE_DEFAULT_MAP_MODE;
 
 export function normalizeMapModePreference(value: string | null | undefined): MapModePreference {
   if (value === 'flat' || value === 'globe') return value;

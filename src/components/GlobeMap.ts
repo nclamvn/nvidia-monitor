@@ -28,6 +28,7 @@ import { getLocale, initI18n, t } from '@/services/i18n';
 import type { ReservoirLevel } from '@/services/climate';
 import { reservoirHeadline, reservoirTone, statusLabel as reservoirStatusLabel } from './reservoir-levels-view';
 import { SITE_VARIANT } from '@/config/variant';
+import { GlobePulse } from '@/components/fork-globe-pulse';
 import { staticAssetUrl } from '@/config/static-asset-url';
 import { getGlobeRenderScale, resolveGlobePixelRatio, resolvePerformanceProfile, subscribeGlobeRenderScaleChange, getGlobeTexture, GLOBE_TEXTURE_URLS, subscribeGlobeTextureChange, getGlobeVisualPreset, subscribeGlobeVisualPresetChange, type GlobeRenderScale, type GlobePerformanceProfile, type GlobeVisualPreset } from '@/services/globe-render-settings';
 import {
@@ -547,6 +548,7 @@ export class GlobeMap {
 
   private initialized = false;
   private destroyed = false;
+  private forkPulse: GlobePulse | null = null;
   private webglLost = false;
   private flushTimer: ReturnType<typeof setTimeout> | null = null;
   private flushMaxTimer: ReturnType<typeof setTimeout> | null = null;
@@ -1056,6 +1058,11 @@ export class GlobeMap {
 
     this.globe = globe;
     this.initialized = true;
+
+    if (SITE_VARIANT === 'tech') {
+      this.forkPulse = new GlobePulse(this.container, globe as unknown as ConstructorParameters<typeof GlobePulse>[1]);
+      void this.applyForkVisuals();
+    }
 
     // Apply initial render quality + performance profile
     this.applyRenderQuality(initialScale);
@@ -2089,7 +2096,7 @@ export class GlobeMap {
     const el = document.createElement('div');
     el.className = 'map-controls deckgl-controls';
     setTrustedHtml(el, trustedHtml(`
-      <span class="globe-beta-badge">BETA</span>
+      ${SITE_VARIANT === 'tech' ? '' : '<span class="globe-beta-badge">BETA</span>'}
       <div class="zoom-controls">
         <button class="map-btn zoom-in"    title="Zoom in" aria-label="Zoom in">+</button>
         <button class="map-btn zoom-out"   title="Zoom out" aria-label="Zoom out">-</button>
@@ -4101,6 +4108,37 @@ export class GlobeMap {
   public setOnCountry(_cb: any): void {}
   public getHotspotLevel(_id: string) { return 'low'; }
 
+  /** Fork: a brighter, crisper globe that separates from the black field. */
+  private async applyForkVisuals(): Promise<void> {
+    if (!this.globe || this.destroyed) return;
+    try {
+      const THREE = await import('three');
+      const renderer = this.globe.renderer();
+      const maxAniso = renderer.capabilities.getMaxAnisotropy();
+      const sharpen = (attempt = 0): void => {
+        if (!this.globe || this.destroyed) return;
+        const mat = this.globe.globeMaterial() as unknown as {
+          map?: { anisotropy: number; needsUpdate: boolean } | null;
+          emissive?: { set(c: number): void }; emissiveMap?: unknown; emissiveIntensity?: number;
+          shininess?: number; needsUpdate: boolean;
+        };
+        if (!mat.map) { if (attempt < 40) setTimeout(() => sharpen(attempt + 1), 250); return; }
+        // Anisotropic filtering keeps the texture crisp toward the limb.
+        mat.map.anisotropy = maxAniso;
+        mat.map.needsUpdate = true;
+        // The texture lights itself a little, so the night side never sinks into the background.
+        mat.emissive?.set(0xffffff);
+        mat.emissiveMap = mat.map;
+        mat.emissiveIntensity = 0.42;
+        if (typeof mat.shininess === 'number') mat.shininess = 6;
+        mat.needsUpdate = true;
+      };
+      sharpen();
+      this.globe.scene().add(new THREE.AmbientLight(0xcfe2ff, 0.9));
+      this.globe.atmosphereColor('#8fc2ff').atmosphereAltitude(0.2);
+    } catch { /* cosmetic */ }
+  }
+
   private async applyEnhancedVisuals(): Promise<void> {
     if (!this.globe || this.destroyed) return;
     try {
@@ -4310,6 +4348,8 @@ export class GlobeMap {
   // ─── Destroy ──────────────────────────────────────────────────────────────
 
   public destroy(): void {
+    this.forkPulse?.destroy();
+    this.forkPulse = null;
     this.pendingMarkerGestureCleanup?.();
     this.controlDisclosureCleanups.forEach(cleanup => cleanup());
     this.controlDisclosureCleanups = [];

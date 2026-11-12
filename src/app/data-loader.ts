@@ -1,4 +1,5 @@
 import type { AppContext, AppModule } from '@/app/app-context';
+import { publishHeadlines } from '@/services/fork-headline-bus';
 import { enqueueSentryCall } from '@/bootstrap/sentry-defer';
 import { isAnalyticsHost, track } from '@/services/analytics';
 import { isPageUnloading } from '@/bootstrap/page-unload-signal';
@@ -1751,6 +1752,7 @@ export class DataLoaderManager implements AppModule {
   }
 
   renderNewsForCategory(category: string, items: NewsItem[]): void {
+    publishHeadlines(category, items);
     this.ctx.newsByCategory[category] = items;
     const filteredItems = this.filterItemsByTimeRange(items);
 
